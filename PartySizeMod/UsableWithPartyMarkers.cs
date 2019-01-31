@@ -7,6 +7,7 @@ namespace PoE2Mods.PartySizeMod
     [ModifiesType]
     public class mod_UsableWithPartyMarkers : UsableWithPartyMarkers
     {
+
         [NewMember]
         protected new void Awake()
         {

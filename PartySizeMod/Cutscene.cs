@@ -29,61 +29,65 @@ namespace PoE2Mods.PartySizeMod
                     {
                         GameObject gameObject = activePartyMember.gameObject;
                         if (!activePartyMember.IsPrimaryPartyMember())
-                        {
                             activePartyMember.AIController.IgnoreAsCutsceneObstacle = true;
-                        }
+
                         if (ActiveShot.UsePartyStartLocation && ActiveShot.PartyStartLocation != null)
                         {
-                            CutsceneWaypoint cutsceneWaypoint = new CutsceneWaypoint();
-                            cutsceneWaypoint.owner = gameObject;
-                            cutsceneWaypoint.MoveType = MovementType.Teleport;
-                            cutsceneWaypoint.TeleportVFX = null;
-
-                            if (absoluteFormationIndex < 5)
+                            try
                             {
-                                if (ActiveShot.PartyStartLocation.Waypoints.Length < absoluteFormationIndex && ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex] != null)
-                                {
+                                CutsceneWaypoint cutsceneWaypoint = new CutsceneWaypoint();
+                                cutsceneWaypoint.owner = gameObject;
+                                cutsceneWaypoint.MoveType = MovementType.Teleport;
+                                cutsceneWaypoint.TeleportVFX = null;
+
+                                if (absoluteFormationIndex < 5)
                                     cutsceneWaypoint.Location = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform;
-                                    SpawnWaypointList.Add(cutsceneWaypoint);
-                                }
                                 else
                                 {
-                                    Debug.Log($"ActiveShot.PartyStartLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
+                                    var transform = ActiveShot.PartyMoveLocation.Waypoints[0].transform;
+                                    transform.position += new Vector3(absoluteFormationIndex + 0.5f, 0f, absoluteFormationIndex + 0.5f);
+
+                                    cutsceneWaypoint.Location = transform;
                                 }
-                            }
-                            else
-                            {
-                                cutsceneWaypoint.Location = ActiveShot.PartyStartLocation.Waypoints[4].transform;
+
                                 SpawnWaypointList.Add(cutsceneWaypoint);
                             }
+                            catch (System.Exception ex)
+                            {
+                                Debug.Log($"ActiveShot.PartyStartLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
+                                Debug.Log($"Exception: {ex.ToString()}");
+                            }
                         }
+
                         if (ActiveShot.UsePartyMoveLocation && ActiveShot.PartyMoveLocation != null)
                         {
-                            CutsceneWaypoint cutsceneWaypoint2 = new CutsceneWaypoint();
-                            cutsceneWaypoint2.owner = gameObject;
-                            cutsceneWaypoint2.MoveType = ActiveShot.PartyMoveType;
-                            cutsceneWaypoint2.TeleportVFX = null;
-
-                            if (absoluteFormationIndex < 5)
+                            try
                             {
-                                if (ActiveShot.PartyMoveLocation.Waypoints.Length < absoluteFormationIndex && ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex] != null)
-                                {
+                                CutsceneWaypoint cutsceneWaypoint2 = new CutsceneWaypoint();
+                                cutsceneWaypoint2.owner = gameObject;
+                                cutsceneWaypoint2.MoveType = ActiveShot.PartyMoveType;
+                                cutsceneWaypoint2.TeleportVFX = null;
+                                cutsceneWaypoint2.SetFacingOnArrival = ActiveShot.PartyFaceOnArrival;
+
+                                if (absoluteFormationIndex < 5)
                                     cutsceneWaypoint2.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
-                                    cutsceneWaypoint2.SetFacingOnArrival = ActiveShot.PartyFaceOnArrival;
-                                    MoveWaypointList.Add(cutsceneWaypoint2);
-                                }
                                 else
                                 {
-                                    Debug.Log($"ActiveShot.PartyMoveLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
+                                    var transform = ActiveShot.PartyMoveLocation.Waypoints[0].transform;
+                                    transform.position += new Vector3(absoluteFormationIndex + 0.5f, 0f, absoluteFormationIndex + 0.5f);
+
+                                    cutsceneWaypoint2.Location = transform;
                                 }
-                            }
-                            else
-                            {
-                                cutsceneWaypoint2.Location = ActiveShot.PartyMoveLocation.Waypoints[4].transform;
-                                cutsceneWaypoint2.SetFacingOnArrival = ActiveShot.PartyFaceOnArrival;
+
                                 MoveWaypointList.Add(cutsceneWaypoint2);
                             }
+                            catch (System.Exception ex)
+                            {
+                                Debug.Log($"ActiveShot.PartyMoveLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
+                                Debug.Log($"Exception: {ex.ToString()}");
+                            }
                         }
+
                         if (!ActorList.Contains(gameObject))
                         {
                             ActorList.Add(gameObject);

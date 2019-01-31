@@ -8,6 +8,13 @@ namespace PoE2Mods.PartySizeMod
     [ModifiesType]
     public class mod_UIPartyManagementIcon : UIPartyManagementIcon
     {
+        [NewMember]
+        protected new void Start()
+        {
+            var componentUnlikely = UISingletonHudWindow<UIPartyManager>.Instance.Party.ParentObject.GetComponentUnlikely<UIGrid>();
+            componentUnlikely.maxPerLine = 6;
+        }
+
         [ModifiesMember("OnClick")]
         private void OnClickNew()
         {
@@ -28,6 +35,7 @@ namespace PoE2Mods.PartySizeMod
                 {
                     UISingletonHudWindow<UIPartyManager>.Instance.BenchCharacter(m_currentPartyMember);
                 }
+
                 UISingletonHudWindow<UIPartyManager>.Instance.Reload();
             }
         }
