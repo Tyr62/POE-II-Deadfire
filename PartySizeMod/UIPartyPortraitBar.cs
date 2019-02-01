@@ -1,4 +1,5 @@
-﻿using Game.UI;
+﻿using Game;
+using Game.UI;
 using Patchwork;
 
 namespace PoE2Mods.PartySizeMod
