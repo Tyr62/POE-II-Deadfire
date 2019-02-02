@@ -71,6 +71,7 @@
     <Compile Include="AllowPets\AllowPetsMod.cs" />
     <Compile Include="PartySizeMod\Cutscene.cs" />
     <Compile Include="PartySizeMod\PartyManager.cs" />
+    <Compile Include="PartySizeMod\PartyWaypoint.cs" />
     <Compile Include="PartySizeMod\UIPartyManagementIcon.cs" />
     <Compile Include="PartySizeMod\UIPartyManagementParty.cs" />
     <Compile Include="PartySizeMod\UIPartyPortraitBar.cs" />
