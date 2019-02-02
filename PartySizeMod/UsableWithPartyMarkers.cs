@@ -6,6 +6,7 @@ using Game.GameData;
 using Onyx;
 using Patchwork;
 using UnityEngine;
+using Console = System.Console;
 
 namespace PoE2Mods.PartySizeMod
 {
@@ -23,6 +24,9 @@ namespace PoE2Mods.PartySizeMod
         [ModifiesMember("GetMarkerPositionBySlot")]
         private Vector3 GetMarkerPositionBySlotNew(int slot, bool secondary)
         {
+            if (PartyInteractionPointsIsNull() || slot < 0)
+                return base.transform.position;
+
             if (slot >= 5)
             {
                 if (PartyInteractionPoints.Length - 1 < slot)
@@ -30,18 +34,18 @@ namespace PoE2Mods.PartySizeMod
 
                 if (PartyInteractionPoints[slot] == null)
                     PartyInteractionPoints[slot] = new GameObject().transform;
-                
-                var neighbor = PartyInteractionPoints[slot - 1];
-                var position = neighbor.transform.position + PartyInteractionPoints[slot].transform.right;
+                else
+                    return PartyInteractionPoints[slot].transform.position;
+
+                var neighbor = PartyInteractionPoints[slot - 1] ?? PartyInteractionPoints[0];
+                var position = neighbor.transform.position + Vector3.right;
                 var rotation = neighbor.transform.rotation;
 
                 PartyInteractionPoints[slot].transform.SetPositionAndRotation(position, rotation);
             }
 
-            if (PartyInteractionPoints == null || slot >= PartyInteractionPoints.Length || slot < 0 || PartyInteractionPoints[slot] == null)
-            {
+            if (slot >= PartyInteractionPoints.Length)
                 return base.transform.position;
-            }
 
             if (secondary)
             {
@@ -49,14 +53,28 @@ namespace PoE2Mods.PartySizeMod
                 Vector3 origin = hitPosition + Vector3.up * 2f;
                 RaycastHit result;
                 if (GameUtilities.Raycast(origin, Vector3.down, out result, float.PositiveInfinity, LayerUtility.WalkableLayersMask))
-                {
                     hitPosition = result.point;
-                }
+
                 NavMeshUtility.SamplePosition(hitPosition, out hitPosition, 5f, NavMeshUtility.WalkableAreasMask);
                 return hitPosition;
             }
 
             return PartyInteractionPoints[slot].position;
+        }
+
+        [NewMember]
+        private bool PartyInteractionPointsIsNull()
+        {
+            if (PartyInteractionPoints == null)
+                return true;
+
+            for (var i = 0; i < PartyInteractionPoints.Length; i++)
+            {
+                if (PartyInteractionPoints[i] != null)
+                    return false;
+            }
+
+            return true;
         }
     }
 }
