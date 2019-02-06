@@ -31,70 +31,57 @@ namespace PoE2Mods.PartySizeMod
                     }
                     else
                     {
-                        GameObject gameObject = activePartyMember.gameObject;
+                        var gameObject = activePartyMember.gameObject;
                         if (!activePartyMember.IsPrimaryPartyMember())
                             activePartyMember.AIController.IgnoreAsCutsceneObstacle = true;
 
                         if (ActiveShot.UsePartyStartLocation && ActiveShot.PartyStartLocation != null)
                         {
-                            try
+                            if (ActiveShot.PartyStartLocation.Waypoints.Length - 1 < absoluteFormationIndex)
+                                Array.Resize(ref ActiveShot.PartyStartLocation.Waypoints, absoluteFormationIndex + 1);
+
+                            if (ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex] == null)
                             {
-                                CutsceneWaypoint cutsceneWaypoint = new CutsceneWaypoint();
-                                cutsceneWaypoint.owner = gameObject;
-                                cutsceneWaypoint.MoveType = MovementType.Teleport;
-                                cutsceneWaypoint.TeleportVFX = null;
+                                ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex] = new GameObject();
+                                var neighbor = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex - 1] ?? ActiveShot.PartyStartLocation.Waypoints[0];
+                                var position = neighbor.transform.position + Vector3.right;
+                                var rotation = neighbor.transform.rotation;
 
-                                if (absoluteFormationIndex >= 5 && ActiveShot.PartyStartLocation.Waypoints.Length - 1 < absoluteFormationIndex)
-                                {
-                                    Array.Resize(ref ActiveShot.PartyStartLocation.Waypoints, absoluteFormationIndex + 1);
-                                    var neighbor = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex - 1];
-                                    var position = neighbor.transform.position + new Vector3(absoluteFormationIndex * 0.5f, 0f, absoluteFormationIndex * 0.5f);
-                                    var rotation = neighbor.transform.rotation;
-
-                                    ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex] = new GameObject();
-                                    ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform.SetPositionAndRotation(position, rotation);
-                                }
-
-                                cutsceneWaypoint.Location = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform;
-     
-                                SpawnWaypointList.Add(cutsceneWaypoint);
+                                ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform.SetPositionAndRotation(position, rotation);
                             }
-                            catch (System.Exception ex)
-                            {
-                                Debug.Log($"ActiveShot.PartyStartLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
-                                Debug.Log($"Exception: {ex.ToString()}");
-                            }
+                            
+                            var cutsceneWaypoint = new CutsceneWaypoint();
+                            cutsceneWaypoint.owner = gameObject;
+                            cutsceneWaypoint.MoveType = MovementType.Teleport;
+                            cutsceneWaypoint.TeleportVFX = null;
+                            cutsceneWaypoint.Location = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform;
+
+                            SpawnWaypointList.Add(cutsceneWaypoint);
                         }
 
                         if (ActiveShot.UsePartyMoveLocation && ActiveShot.PartyMoveLocation != null)
                         {
-                            try
+                            if (ActiveShot.PartyMoveLocation.Waypoints.Length - 1 < absoluteFormationIndex)
+                                Array.Resize(ref ActiveShot.PartyMoveLocation.Waypoints, absoluteFormationIndex + 1);
+
+                            if (ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex] == null)
                             {
-                                CutsceneWaypoint cutsceneWaypoint2 = new CutsceneWaypoint();
-                                cutsceneWaypoint2.owner = gameObject;
-                                cutsceneWaypoint2.MoveType = MovementType.Teleport;
-                                cutsceneWaypoint2.TeleportVFX = null;
+                                ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex] = new GameObject();
+                                var neighbor = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex - 1] ?? ActiveShot.PartyMoveLocation.Waypoints[0];
+                                var position = neighbor.transform.position + Vector3.right;
+                                var rotation = neighbor.transform.rotation;
 
-                                if (absoluteFormationIndex >= 5 && ActiveShot.PartyMoveLocation.Waypoints.Length - 1 < absoluteFormationIndex)
-                                {
-                                    Array.Resize(ref ActiveShot.PartyMoveLocation.Waypoints, absoluteFormationIndex + 1);
-                                    var neighbor = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex - 1];
-                                    var position = neighbor.transform.position + new Vector3(absoluteFormationIndex * 0.5f, 0f, absoluteFormationIndex * 0.5f);
-                                    var rotation = neighbor.transform.rotation;
-
-                                    ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex] = new GameObject();
-                                    ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform.SetPositionAndRotation(position, rotation);
-                                }
-
-                                cutsceneWaypoint2.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
-
-                                SpawnWaypointList.Add(cutsceneWaypoint2);
+                                ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform.SetPositionAndRotation(position, rotation);
                             }
-                            catch (System.Exception ex)
-                            {
-                                Debug.Log($"ActiveShot.PartyMoveLocation.Waypoints: {absoluteFormationIndex} is null or too high.");
-                                Debug.Log($"Exception: {ex.ToString()}");
-                            }
+
+                            var cutsceneWaypoint = new CutsceneWaypoint();
+                            cutsceneWaypoint.owner = gameObject;
+                            cutsceneWaypoint.MoveType = MovementType.Teleport;
+                            cutsceneWaypoint.TeleportVFX = null;
+                            cutsceneWaypoint.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
+
+                            SpawnWaypointList.Add(cutsceneWaypoint);
+                            
                         }
 
                         if (!ActorList.Contains(gameObject))

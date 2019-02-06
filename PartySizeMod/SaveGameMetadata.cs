@@ -10,7 +10,7 @@ namespace PoE2Mods.PartySizeMod
     [ModifiesType]
     public class mod_SaveGameMetadata : SaveGameMetadata
     {
-        [ModifiesMember("SavePartyPortraits")]
+       [ModifiesMember("SavePartyPortraits")]
         private void SavePartyPortraitsNew()
         {
             mPartyPortraits = (Texture2D[])new Texture2D[6];

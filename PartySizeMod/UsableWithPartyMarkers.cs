@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Game;
-using Game.AI;
-using Game.GameData;
 using Onyx;
 using Patchwork;
 using UnityEngine;
-using Console = System.Console;
 
 namespace PoE2Mods.PartySizeMod
 {

@@ -3,7 +3,6 @@ using Game;
 using Onyx;
 using Patchwork;
 using UnityEngine;
-using Console = System.Console;
 
 namespace PoE2Mods.PartySizeMod
 {
