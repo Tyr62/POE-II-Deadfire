@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Party Size Mods", "Party Size Mods", "{1DCC6299-A5AA-4FFB-B323-5A2A1FF9DA8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 Characters with pets", "6 Characters with pets", "{D6F0A347-E5C5-4923-899E-45B2E55DCE30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 Characters without pets", "6 Characters without pets", "{8A584890-0A93-429A-9C50-1D87CA946835}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8 Characters", "8 Characters", "{71670188-F1A2-4160-9A3C-A6A17BCF422D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoE2Mods", "Party Size Mods\6 Characters with pets\PoE2Mods.csproj", "{456F6901-6E69-4C4E-9C93-F6FE726A7999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoE2Mods", "Party Size Mods\6 Characters without pets\PoE2Mods.csproj", "{7DC17715-27B0-47C3-BD77-97F54E99A630}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoE2Mods", "Party Size Mods\8 Characters\PoE2Mods.csproj", "{163592BD-6599-4136-8742-2FE291078346}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{456F6901-6E69-4C4E-9C93-F6FE726A7999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F6901-6E69-4C4E-9C93-F6FE726A7999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F6901-6E69-4C4E-9C93-F6FE726A7999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F6901-6E69-4C4E-9C93-F6FE726A7999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC17715-27B0-47C3-BD77-97F54E99A630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC17715-27B0-47C3-BD77-97F54E99A630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC17715-27B0-47C3-BD77-97F54E99A630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC17715-27B0-47C3-BD77-97F54E99A630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163592BD-6599-4136-8742-2FE291078346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163592BD-6599-4136-8742-2FE291078346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163592BD-6599-4136-8742-2FE291078346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163592BD-6599-4136-8742-2FE291078346}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D6F0A347-E5C5-4923-899E-45B2E55DCE30} = {1DCC6299-A5AA-4FFB-B323-5A2A1FF9DA8A}
+		{8A584890-0A93-429A-9C50-1D87CA946835} = {1DCC6299-A5AA-4FFB-B323-5A2A1FF9DA8A}
+		{71670188-F1A2-4160-9A3C-A6A17BCF422D} = {1DCC6299-A5AA-4FFB-B323-5A2A1FF9DA8A}
+		{456F6901-6E69-4C4E-9C93-F6FE726A7999} = {D6F0A347-E5C5-4923-899E-45B2E55DCE30}
+		{7DC17715-27B0-47C3-BD77-97F54E99A630} = {8A584890-0A93-429A-9C50-1D87CA946835}
+		{163592BD-6599-4136-8742-2FE291078346} = {71670188-F1A2-4160-9A3C-A6A17BCF422D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67F10D6B-F4AA-4674-8038-320B27D2B2B1}
+	EndGlobalSection
+EndGlobal

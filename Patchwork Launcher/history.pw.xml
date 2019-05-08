@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<XmlHistory xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Files>
+    <File>
+      <PatchHistory>
+        <PatchHistoryInstruction>
+          <PatchLocation>Mods\PoE2Mods.pw.dll</PatchLocation>
+        </PatchHistoryInstruction>
+      </PatchHistory>
+      <TargetPath>X:\SteamLibrary\steamapps\common\Pillars of Eternity II\PillarsOfEternityII_Data\Managed\Assembly-CSharp.dll</TargetPath>
+    </File>
+  </Files>
+  <Success>false</Success>
+</XmlHistory>

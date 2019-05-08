@@ -1,0 +1,716 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Patchwork.Attributes</name>
+    </assembly>
+    <members>
+        <member name="T:Patchwork.AutoPatching.AppInfoFactory">
+            <summary>
+            A factory for constructing instances of the <see cref="T:Patchwork.AutoPatching.AppInfo"/> class. The inheriting class must have a default constructor and must be decorated with <see cref="T:Patchwork.AutoPatching.AppInfoFactoryAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Patchwork.AutoPatching.AppInfoFactory.CreateInfo(System.IO.DirectoryInfo)">
+            <summary>
+            Constructs a new instance of <see cref="T:Patchwork.AutoPatching.AppInfo"/>.
+            </summary>
+            <param name="folderInfo">The primary folder of the application from which other information is deduced.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.AutoPatching.AppInfoFactoryAttribute">
+            <summary>
+            You must decorate the <see cref="T:Patchwork.AutoPatching.AppInfoFactory"/> class for your app assembly with this attribute so that Patchwork will find it.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AutoPatching.IPatchInfo">
+            <summary>
+            Represents information about a patch and the manner in which patching should be performed. An inheriting class must have a default constructor and be decorated with <see cref="T:Patchwork.AutoPatching.PatchInfoAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:Patchwork.AutoPatching.IPatchInfo.GetTargetFile(Patchwork.AutoPatching.AppInfo)">
+            <summary>
+            Returns the file this patch is meant to patch, when supplied information about the app. This method is supposed to locate the file, etc.
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.AutoPatching.IPatchInfo.CanPatch(Patchwork.AutoPatching.AppInfo)">
+            <summary>
+            Determines if this patch can be applied to the specified application. If so, returns 'null'. Otherwise, returns a string that describes the problem.
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Patchwork.AutoPatching.IPatchInfo.PatchVersion">
+            <summary>
+            Returns the version of the patch.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.IPatchInfo.Requirements">
+            <summary>
+            Returns a display of the requirements of the patch.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.IPatchInfo.PatchName">
+            <summary>
+            Returns the display name of the patch.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AutoPatching.AppInfo">
+            <summary>
+            A simple class that contains information about an application. Should be constructed through the <see cref="T:Patchwork.AutoPatching.AppInfoFactory"/> 
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.Executable">
+            <summary>
+            The executable file of the application.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.AppVersion">
+            <summary>
+            A string that describes the version of the application.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.AppName">
+            <summary>
+            The display name of the application.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.IgnorePEVerifyErrors">
+            <summary>
+            An array of error codes to ignore when/if running PEVerify on a patched file.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.BaseDirectory">
+            <summary>
+            The base or primary folder of the application.
+            </summary>
+        </member>
+        <member name="P:Patchwork.AutoPatching.AppInfo.IconLocation">
+            <summary>
+            Returns the location of a file from which the icon can be retrieved. Different kinds of files are supported, including executables.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AutoPatching.NamespaceDoc">
+            <summary>
+            Namespace containing types used for automatic patching.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AutoPatching.PatchInfoAttribute">
+            <summary>
+            You must decorate your <see cref="T:Patchwork.AutoPatching.IPatchInfo"/>-implementing class with this attribute.
+            </summary>
+        </member>
+        <member name="T:Patchwork.CommonTargets">
+            <summary>
+            Common attribute targets.
+            </summary>
+        </member>
+        <member name="F:Patchwork.CommonTargets.Types">
+            <summary>
+            Class, Enum, Struct, Interface, and Delegate.
+            </summary>
+        </member>
+        <member name="F:Patchwork.CommonTargets.Members">
+            <summary>
+            Event, Property, Field, Method, and Constructor.
+            </summary>
+        </member>
+        <member name="T:Patchwork.History.NamespaceDoc">
+            <summary>
+            Attributes used to mark patched assemblies. Added automatically during the patching process if the right options are set. Used for automatic patching to inspect which patches have been applied.
+            </summary>
+        </member>
+        <member name="T:Patchwork.History.PatchApplicationMetadata">
+            <summary>
+            Contains metadata that can be used to uniquely identify a patch operation.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchApplicationMetadata.PatchAssemblyMetadata">
+            <summary>
+            A metadata string identifying the patch assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchApplicationMetadata.OriginalAssemblyMetadata">
+            <summary>
+            A metadata string identifying the original (target) assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchApplicationMetadata.PatchworkAssemblyMetadata">
+            <summary>
+            A metadata string identifying the Patchwork.Engine assembly.
+            </summary>
+        </member>
+        <member name="T:Patchwork.History.PatchedByAssemblyAttribute">
+            <summary>
+            Indicates that this assembly has been patched by another assembly and specifies metadata about the original assembly, the patch assembly, and the Patchwork engine assembly. Added automatically during patching.
+            </summary>
+        </member>
+        <member name="M:Patchwork.History.PatchedByAssemblyAttribute.#ctor(System.Int32,System.String,System.String,System.String)">
+            <param name="index">The order of the patch in a given patching session.</param>
+            <param name="patchAssemblyMetadata">A string that contains identifiying metadata of the patch.</param>
+            <param name="originalAssemblyMetadata">A string that contains the identifying metadata of the original file.</param>
+            <param name="patchworkAssemblyMetadata">A string that contains the identifying metadata of the Patchwork engine used to perform the patching.</param>
+        </member>
+        <member name="P:Patchwork.History.PatchedByAssemblyAttribute.PatchAssemblyMetadata">
+            <summary>
+            A string that contains identifiying metadata of the patch.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchedByAssemblyAttribute.OriginalAssemblyMetadata">
+            <summary>
+            A string that contains the identifying metadata of the original file.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchedByAssemblyAttribute.PatchworkAssemblyMetadata">
+            <summary>
+            A string that contains the identifying metadata of the Patchwork engine used to perform the patching.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchedByAssemblyAttribute.Index">
+            <summary>
+            The order of the patch in a given patching session.
+            </summary>
+        </member>
+        <member name="M:Patchwork.History.PatchedByAssemblyAttribute.ToPatchApplicationMetadata">
+            <summary>
+            Converts the info in this attribute into a <see cref="T:Patchwork.History.PatchApplicationMetadata"/> instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.History.PatchingHistoryAttribute">
+            <summary>
+            Parent class of patching history attributes. These are used to indicate that a member, type, or assembly has been patched.
+            </summary>
+        </member>
+        <member name="T:Patchwork.History.PatchedByMemberAttribute">
+            <summary>
+            Indicates that this member has been patched by another member in a patching assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchedByMemberAttribute.YourMemberName">
+            <summary>
+            The member name that did the patching.
+            </summary>
+        </member>
+        <member name="M:Patchwork.History.PatchedByMemberAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="yourMemberName">The member name. The declaring type is inferred.</param>
+        </member>
+        <member name="T:Patchwork.History.PatchedByTypeAttribute">
+            <summary>
+            Indicates that this type has been patched by another type in a patching assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.History.PatchedByTypeAttribute.YourType">
+            <summary>
+            The type according to which this type was patched.
+            </summary>
+        </member>
+        <member name="M:Patchwork.History.PatchedByTypeAttribute.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="yourType">The type according to which this type was patched.</param>
+        </member>
+        <member name="T:Patchwork.NeverEmbedAttribute">
+            <summary>
+            A meta-attribute, placed on other attributes. Specifies that this attribute should never be embedded into patched assemblies.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AdvancedModificationScope">
+            <summary>
+            Contains secret modification scopes for internal use. They're not part of the ModificationScope enum so that they won't confuse anyone.
+            </summary>
+        </member>
+        <member name="F:Patchwork.AdvancedModificationScope.ExplicitOverrides">
+            <summary>
+            Specifies that a method's explicitly declared overrides section should be changed. 
+            </summary>
+        </member>
+        <member name="F:Patchwork.AdvancedModificationScope.NotApplicable">
+            <summary>
+            Specifies that a modification scope is not applicable for this element.
+            </summary>
+        </member>
+        <member name="F:Patchwork.AdvancedModificationScope.NewlyCreated">
+            <summary>
+            ALL the things! For real this time!
+            </summary>
+        </member>
+        <member name="T:Patchwork.AliasCallMode">
+            <summary>
+            Changes how calls to this alias are translated in the target assembly.
+            </summary>
+        </member>
+        <member name="F:Patchwork.AliasCallMode.NoChange">
+            <summary>
+            The call to the aliased member will use the same calling convention as the original call.
+            </summary>
+        </member>
+        <member name="F:Patchwork.AliasCallMode.Virtual">
+            <summary>
+            The call to the aliased member will always be a virtual call, even if the original was non-virtual.
+            </summary>
+        </member>
+        <member name="F:Patchwork.AliasCallMode.NonVirtual">
+            <summary>
+            The call to the aliased member will always be non-virtual, even if the original was virtual. This allows you to call overridden members.
+            </summary>
+        </member>
+        <member name="T:Patchwork.AssemblyActionAttribute">
+            <summary>
+            Parent class of all patching attributes that are applied to modules and assemblies.
+            </summary>
+        </member>
+        <member name="T:Patchwork.DisablePatchingAttribute">
+            <summary>
+                Disables patching this element and any child elements. Can be applied to anything that can be patched. Overrides
+                other attributes.
+            </summary>
+            <remarks>
+                Note that this class does not descend from <see cref="T:Patchwork.PatchingAttribute" />
+            </remarks>
+        </member>
+        <member name="T:Patchwork.DuplicatesBodyAttribute">
+            <summary>
+                Inserts the body of another method into this target method (as it appears in the application assembly). The target member must still be decorated with a <see cref="T:Patchwork.MemberActionAttribute"/>
+            </summary>
+            <remarks>
+                Note that this attribute can be used to call the original versions of modified methods,
+                as methods aren't resolved through the modifies assembly.
+            </remarks>
+        </member>
+        <member name="M:Patchwork.DuplicatesBodyAttribute.#ctor(System.String,System.Object)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Patchwork.DuplicatesBodyAttribute" /> class.
+            </summary>
+            <param name="methodName">Name of the method to duplicate.</param>
+            <param name="sourceType">
+                Optionally, the <see cref="T:System.Type"/> declaring the method. Otherwise, the type currently being modified is assumed.
+            </param>
+        </member>
+        <member name="P:Patchwork.DuplicatesBodyAttribute.SourceType">
+            <summary>
+                Gets the type which is the source of the method to be duplicated.  May be null.
+                If acquired from Cecil, it will be a TypeReference, while if acquired through reflection, it will be a System.Type.
+            </summary>
+            <value>
+                The type of the source.
+            </value>
+        </member>
+        <member name="P:Patchwork.DuplicatesBodyAttribute.MethodName">
+            <summary>
+            The name of the method to duplicate.
+            </summary>
+        </member>
+        <member name="T:Patchwork.ImportCustomAttributesAttribute">
+            <summary>
+            Specifies that Patchwork should import non-patching attributes on this module or assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.ImportCustomAttributesAttribute.AttributeTypes">
+            <summary>
+            The types of the attributes to import. In cecil, it will contain an array of TypeReference objects, but it is initialized with Type objects.
+            </summary>
+        </member>
+        <member name="M:Patchwork.ImportCustomAttributesAttribute.#ctor(System.Object[])">
+            <summary>
+            Creates a new instance.
+            </summary>
+            <param name="attributeTypes">The types of the attributes to import. Should be an array of Type objects.</param>
+        </member>
+        <member name="T:Patchwork.DisablePatchingByNameAttribute">
+            <summary>
+            This attribute disables patching types and/or methods in the assembly based on a regex you supply, which is matched against their full name (including namespace and declaring type).
+            </summary>
+        </member>
+        <member name="P:Patchwork.DisablePatchingByNameAttribute.Regex">
+            <summary>
+            The regular expression used to match the name of the element to ignore.
+            </summary>
+        </member>
+        <member name="P:Patchwork.DisablePatchingByNameAttribute.Target">
+            <summary>
+            Restricts the attribute to affect only elements of any of these types 
+            </summary>
+        </member>
+        <member name="M:Patchwork.DisablePatchingByNameAttribute.#ctor(System.String,Patchwork.PatchingTarget)">
+            <summary>
+            
+            </summary>
+            <param name="regex">A regular expression to match the name of the element to ignore.</param>
+            <param name="target">Restricts the attribute to affect only elements of any of these types.</param>
+        </member>
+        <member name="T:Patchwork.NamespaceDoc">
+            <summary>
+            Patching attributes used to mark patching types and members to tell the Patchwork engine what to do with them.
+            </summary>
+        </member>
+        <member name="T:Patchwork.PatchingTarget">
+            <summary>
+            An enum consisting of all the valid code elements that can be decorated with patching attributes.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Method">
+            <summary>
+            Includes constructors.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Property">
+            <summary>
+            Includes indexers.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Field">
+            <summary>
+            Includes fields.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Event">
+            <summary>
+            Includes events.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Member">
+            <summary>
+            Method, Property, Field, or Event
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.Type">
+            <summary>
+            Interface, Class, Struct, Enum, and Delegate
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchingTarget.All">
+            <summary>
+            All patching targets.
+            </summary>
+        </member>
+        <member name="T:Patchwork.ToggleFieldAttributes">
+            <summary>
+            This toggles (or XORs) all the specified decleration attributes in the field. Lets you add/remove things like 'readonly'.
+            You must still use a <see cref="T:Patchwork.MemberActionAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Patchwork.ToggleFieldAttributes.Attributes">
+            <summary>
+            The attributes to toggle. Defaults to 0 (no attributes).
+            </summary>
+        </member>
+        <member name="M:Patchwork.ToggleFieldAttributes.#ctor(System.Reflection.FieldAttributes)">
+            <summary>
+            Constructs a new instance.
+            </summary>
+            <param name="attributes">The attributes to toggle. Defaults to 0 (no attributes).</param>
+        </member>
+        <member name="T:Patchwork.PatchworkDebugRegisterAttribute">
+            <summary>
+            This attribute enables limited debugging capability. You can specify a string field that contains the lines executed, from the beginning of the method.
+            </summary>
+        </member>
+        <member name="P:Patchwork.PatchworkDebugRegisterAttribute.DebugFieldName">
+            <summary>
+            The name of the string field that will store the debug information.
+            </summary>
+        </member>
+        <member name="P:Patchwork.PatchworkDebugRegisterAttribute.DeclaringType">
+            <summary>
+            The type that declares the field. If not specified, the modified type is assumed.
+            </summary>
+        </member>
+        <member name="M:Patchwork.PatchworkDebugRegisterAttribute.#ctor(System.String,System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="debugFieldName">The name of the string field that will store the debug information.</param>
+            <param name="declaringType">The type that declares the field. If not specified, the modified type is assumed.</param>
+        </member>
+        <member name="T:Patchwork.MemberActionAttribute">
+            <summary>
+                This kind of attribute denotes the action to perform regarding this member. There should be only one such attribute
+                on an element.
+            </summary>
+        </member>
+        <member name="M:Patchwork.MemberActionAttribute.#ctor(Patchwork.ModificationScope)">
+            <summary>
+            Constructs a new instance of the attribute.
+            </summary>
+            <param name="scope">The scope of the modification applied by this attribute.</param>
+        </member>
+        <member name="P:Patchwork.MemberActionAttribute.Scope">
+            <summary>
+            The scope of the modification applied by this attribute.
+            </summary>
+        </member>
+        <member name="T:Patchwork.MemberAliasAttribute">
+            <summary>
+            This attribute turns a member you declare into an alias of another member. When a reference to this member is encountered in your code, it is replaced by a refernece to the aliased member.
+            </summary>
+        </member>
+        <member name="P:Patchwork.MemberAliasAttribute.AliasedMemberName">
+            <summary>
+            Optionally, the member to be aliased. 
+            If not specified, the name of the current member is used.
+            </summary>
+        </member>
+        <member name="P:Patchwork.MemberAliasAttribute.AliasedMemberDeclaringType">
+            <summary>
+            The declaring type of the member. If not specified, the modified type is used.
+            </summary>
+        </member>
+        <member name="P:Patchwork.MemberAliasAttribute.CallMode">
+            <summary>
+            Specifies whether calls to this alias should be translated in some special way.
+            </summary>
+        </member>
+        <member name="M:Patchwork.MemberAliasAttribute.#ctor(System.String,System.Object,Patchwork.AliasCallMode)">
+            <summary>
+            Creates a new instance of this attribute.
+            </summary>
+            <param name="aliasedMemberName">Optionally, the member to be aliased. 
+            If not specified, the name of the current member is used.</param>
+            <param name="aliasedMemberDeclaringType">The declaring type of the member. If not specified, the modified type is used.</param>
+            <param name="callMode">Specifies whether calls to this alias should be translated in some special way.</param>
+        </member>
+        <member name="T:Patchwork.ModificationScope">
+            <summary>
+                The scope of a member modification. Use this to modify only the body, accessibility, value, etc.
+            </summary>
+        </member>
+        <member name="F:Patchwork.ModificationScope.Nothing">
+            <summary>
+                Don't modify element.
+            </summary>
+        </member>
+        <member name="F:Patchwork.ModificationScope.Body">
+            <summary>
+                Modifies the body of the element. For properties, this can change the getter/setter methods, if new ones were
+                defined. For fields, this changes the constant value.
+            </summary>
+        </member>
+        <member name="F:Patchwork.ModificationScope.Accessibility">
+            <summary>
+                Modifies accessibility only.
+            </summary>
+        </member>
+        <member name="F:Patchwork.ModificationScope.CustomAttributes">
+            <summary>
+            Adds any custom attributes on the member (doesn't erase existing attributes).
+            </summary>
+        </member>
+        <member name="F:Patchwork.ModificationScope.All">
+            <summary>
+                All the things!
+            </summary>
+        </member>
+        <member name="T:Patchwork.ModifiesAccessibilityAttribute">
+            <summary>
+                A special case of <see cref="T:Patchwork.ModifiesMemberAttribute"/>. Modifies only the accessibility (public/private/etc).
+            </summary>
+        </member>
+        <member name="M:Patchwork.ModifiesAccessibilityAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance of the attribute.
+            </summary>
+            <param name="memberName">Optionally, the name of the member to be modified. If not specified, the name of the current member is used.</param>
+        </member>
+        <member name="T:Patchwork.ModifiesMemberAttribute">
+            <summary>
+                Marks this member as being a modification of a member in the target assembly.
+            </summary>
+        </member>
+        <member name="M:Patchwork.ModifiesMemberAttribute.#ctor(System.String,Patchwork.ModificationScope)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Patchwork.ModifiesMemberAttribute" /> class.
+            </summary>
+            <param name="memberName">Optionally, name of the member to be modified. If null, a member with the same name is used.</param>
+            <param name="scope">
+                Can limit the scope of the modification. Everything is modified by default. Usually used to make
+                things public, etc.
+            </param>
+        </member>
+        <member name="P:Patchwork.ModifiesMemberAttribute.MemberName">
+            <summary>
+            Optionally, name of the member to be modified. If null, a member with the same name is used.
+            </summary>
+        </member>
+        <member name="T:Patchwork.ModifiesTypeAttribute">
+            <summary>
+                Use this attribute on a type to denote that it patches an existing type in the application.
+            </summary>
+        </member>
+        <member name="M:Patchwork.ModifiesTypeAttribute.#ctor(System.String)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Patchwork.ModifiesTypeAttribute" /> class.
+            </summary>
+            <param name="fullTypeName">
+                Optionally, the full name of the type to be modified. <c>"base"</c> means the base type is used instead. <c>null</c> means a type
+                with the same full name (in the target assembly) is modified.
+                For nested classes, use the syntax <c>Namespace.Container/Nested/...</c>
+            </param>
+        </member>
+        <member name="P:Patchwork.ModifiesTypeAttribute.FullTypeName">
+            <summary>
+            Optionally, the full name of the type to be modified. <c>"base"</c> means the base type is used instead. <c>null</c> means a type
+            with the same full name (in the target assembly) is modified.
+            For nested classes, use the syntax <c>Namespace.Container/Nested/...</c>
+            </summary>
+        </member>
+        <member name="T:Patchwork.NewMemberAttribute">
+            <summary>
+                Denotes that this member is a new member, which will be injected into the modified type.
+            </summary>
+        </member>
+        <member name="P:Patchwork.NewMemberAttribute.NewMemberName">
+            <summary>
+            The name of the member.
+            </summary>
+        </member>
+        <member name="M:Patchwork.NewMemberAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance of this attribute.
+            </summary>
+            <param name="newMemberName">Optionally, the name the new member is introduced with. Otherwise, defaults to its compiled name. Use this option to prevent collisions.</param>
+        </member>
+        <member name="M:Patchwork.NewMemberAttribute.#ctor(System.Boolean,System.String)">
+            <summary>
+            Constructs a new instance of this attribute.
+            </summary>
+            <param name="isImplicit">Whether or not the member counts as an implicit new member. Changes the behavior of the engine in some cases.</param>
+            <param name="newMemberName">Optionally, the name of the new member. Otherwise, defaults to its compiled name. Use this option to prevent collisions.</param>
+        </member>
+        <member name="P:Patchwork.NewMemberAttribute.IsImplicit">
+            <summary>
+            Whether or not 
+            </summary>
+        </member>
+        <member name="T:Patchwork.ToggleMethodAttributes">
+            <summary>
+            This toggles (or XORs) all the specified decleration attributes in the method. Lets you add/remove things like 'sealed and 'virtual''.
+            You must still use a <see cref="T:Patchwork.MemberActionAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:Patchwork.ToggleMethodAttributes.Attributes">
+            <summary>
+            The attributes to toggle. Default to 0 (no attributes).
+            </summary>
+        </member>
+        <member name="M:Patchwork.ToggleMethodAttributes.#ctor(System.Reflection.MethodAttributes)">
+            <summary>
+            Constructs a new instance of the attribute.
+            </summary>
+            <param name="attributes">The attributes to toggle. Default to 0 (no attributes).</param>
+        </member>
+        <member name="T:Patchwork.ToggleTypeAttributes">
+            <summary>
+            This toggles (or XORs) all the specified decleration attributes in the type. Lets you add/remove things like 'sealed'.
+            You must still use a <see cref="T:Patchwork.TypeActionAttribute"/>.
+            Not implemented.
+            </summary>
+        </member>
+        <member name="M:Patchwork.ToggleTypeAttributes.#ctor(System.Reflection.TypeAttributes)">
+            <summary>
+            
+            </summary>
+            <param name="attributes">The attributes to toggle. Default to 0 (no attributes).</param>
+        </member>
+        <member name="T:Patchwork.TypeActionAttribute">
+            <summary>
+            An abstract attribute that indicates which action to perform on a type. Each type must have only one attribute of this type.
+            </summary>
+        </member>
+        <member name="T:Patchwork.NewTypeAttribute">
+            <summary>
+            Indicates that this type is a new type that must be injected into the assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.NewTypeAttribute.NewTypeName">
+            <summary>
+            The short name under which the type is introduced. If <c>null</c>, the name is unchanged. Dots should not be used here.
+            </summary>
+        </member>
+        <member name="P:Patchwork.NewTypeAttribute.NewNamespace">
+            <summary>
+            The namespace under which the type will be introduced. May contain dots. If <c>null</c>, the type is unchanged.
+            </summary>
+        </member>
+        <member name="M:Patchwork.NewTypeAttribute.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="newTypeName">The short name under which the type is introduced. If <c>null</c>, the name is unchanged. Dots should not be used here.</param>
+            <param name="newNamespace">The namespace under which the type will be introduced. May contain dots. If <c>null</c>, the type is unchanged.</param>
+        </member>
+        <member name="M:Patchwork.NewTypeAttribute.#ctor(System.Boolean,System.String,System.String)">
+            <summary>
+                Creates a new NewTypeAttribute, possibly marking the type as implicit.
+            </summary>
+            <param name="isImplicit">If set to true, the type is considered implicitly new, which generates various warnings.</param>
+            <param name="newTypeName">The short name under which the type is introduced. If <c>null</c>, the name is unchanged. Dots should not be used here.</param>
+            <param name="newNamespace">The namespace under which the type will be introduced. May contain dots. If <c>null</c>, the type is unchanged.</param>
+        </member>
+        <member name="P:Patchwork.NewTypeAttribute.IsImplicit">
+            <summary>
+            Whether or not this attribute signifies an implicitly new member.
+            </summary>
+        </member>
+        <member name="T:Patchwork.PatchAssemblyAttribute">
+            <summary>
+                Designates that the assembly contains patching types. Assemblies without this attribute cannot be used as patches.
+            </summary>
+        </member>
+        <member name="T:Patchwork.PatchingAttribute">
+            <summary>
+                Parent class of all attributes related to patching, with a handful of exceptions.
+            </summary>
+        </member>
+        <member name="T:Patchwork.RemoveThisMemberAttribute">
+            <summary>
+                Removes the member from the modified type.
+            </summary>
+        </member>
+        <member name="M:Patchwork.RemoveThisMemberAttribute.#ctor">
+            <summary>
+            Constructs a new instance of this attribute.
+            </summary>
+        </member>
+        <member name="T:Patchwork.ReplaceTypeAttribute">
+            <summary>
+                Like <see cref="T:Patchwork.ModifiesTypeAttribute"/>, but removes all  members and introduces yours instead. Only implemented for enums.
+            </summary>
+        </member>
+        <member name="M:Patchwork.ReplaceTypeAttribute.#ctor(System.String)">
+            <summary>
+            Constructs a new instance of this attribute.
+            </summary>
+            <param name="fullTypeName">The full name of the type to apply this attribute to.</param>
+        </member>
+        <member name="T:Patchwork.PatchworkInfo">
+            <summary>
+            Provides version information for Patchwork and its related assemblies.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchworkInfo.Version">
+            <summary>
+            Patchwork version string.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchworkInfo.Author">
+            <summary>
+            The author of this set of Patchwork assemblies. 
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchworkInfo.Copyright">
+            <summary>
+            The copyright string of this set of Patchwork assemblies.
+            </summary>
+        </member>
+        <member name="F:Patchwork.PatchworkInfo.PatchworkSite">
+            <summary>
+            The Patchwork website string.
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Instructions>
+    <Instruction IsEnabled="true">
+      <Name>PoE2Mods</Name>
+      <PatchPath>Mods\PoE2Mods.pw.dll</PatchPath>
+    </Instruction>
+  </Instructions>
+  <BaseFolder>X:\SteamLibrary\steamapps\common\Pillars of Eternity II</BaseFolder>
+</Settings>

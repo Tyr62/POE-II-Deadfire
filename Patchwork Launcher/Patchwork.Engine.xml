@@ -1,0 +1,1063 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Patchwork.Engine</name>
+    </assembly>
+    <members>
+        <member name="T:Patchwork.Engine.AssemblyPatcher">
+            <summary>
+                A class that patches a specific assembly (a target assembly) with your assemblies.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CopyProperty(Mono.Cecil.PropertyDefinition,System.String)">
+            <summary>
+            Creates a new property like the specified property, but doesn't add it anywhere.
+            </summary>
+            <param name="yourProperty"></param>
+            <param name="newName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CreateNewProperty(Mono.Cecil.TypeDefinition,Mono.Cecil.PropertyDefinition,Patchwork.NewMemberAttribute)">
+            <summary>
+                Creates a new property in the target assembly, but doesn't set its accessors.
+            </summary>
+            <param name="targetType">Type of the target.</param>
+            <param name="yourProperty">Your property.</param>
+            <param name="newPropAttr">The new property attribute.</param>
+            <exception cref="T:Patchwork.Engine.PatchDeclerationException">Thrown if this member collides with another member, and the error cannot be resolved.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CopyEvent(Mono.Cecil.EventDefinition,System.String)">
+            <summary>
+            Creates an event like the specified event, but doesn't add it anywhere.
+            </summary>
+            <param name="yourEvent"></param>
+            <param name="newName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CopyType(Mono.Cecil.TypeDefinition,System.String,System.String)">
+            <summary>
+            Creates a tpye like the specified type, but doesn't add it anywhere. However, its DeclaringType is set correctly.
+            </summary>
+            <param name="yourType"></param>
+            <param name="targetNamespace"></param>
+            <param name="targetName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CreateNewType(Mono.Cecil.TypeDefinition,Patchwork.NewTypeAttribute)">
+            <summary>
+            Creates a new type in the target assembly, based on yourType.
+            </summary>
+            <param name="yourType">Your type, which describes what kind of type to create.</param>
+            <param name="actionAttribute">The action attribute ordering the creation.</param>
+            <returns></returns>
+            <exception cref="T:Patchwork.Engine.PatchDeclerationException">Thrown if this member collides with another member, and the error cannot be resolved.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CopyMethod(Mono.Cecil.MethodDefinition,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="yourMethod"></param>
+            <param name="targetName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CreateNewMethod(Patchwork.Engine.MemberAction{Mono.Cecil.MethodDefinition})">
+            <summary>
+            Creates a new method in the target assembly, for the specified type.
+            </summary>
+            <returns></returns>
+            <exception cref="T:Patchwork.Engine.PatchDeclerationException">Thrown if this member collides with another member, and the error cannot be resolved.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CreateNewField(Mono.Cecil.TypeDefinition,Mono.Cecil.FieldDefinition,Patchwork.NewMemberAttribute)">
+            <summary>
+            Creates a new field in the target assembly, for the specified type.
+            </summary>
+            <param name="targetDeclaringType">The target declaring type.</param>
+            <param name="yourField">Your field.</param>
+            <param name="attr">The action attribute.</param>
+            <exception cref="T:Patchwork.Engine.PatchDeclerationException">Thrown if this member collides with another member, and the error cannot be resolved.</exception>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.FixParamReference(Mono.Cecil.MethodDefinition,Mono.Cecil.ParameterReference)">
+            <summary>
+            Fixes a parameter reference 
+            </summary>
+            <param name="targetMethod"></param>
+            <param name="yourParamRef"></param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.SimplifyOpCode(Mono.Cecil.Cil.OpCode)">
+            <summary>
+            
+            </summary>
+            <param name="toSimplify"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.FixTypeReference(Mono.Cecil.TypeReference)">
+            <summary>
+                Fixes a type reference, possibly replacing a reference to a patching type from your assembly with a reference to
+                the type being patched.
+            </summary>
+            <param name="yourTypeRef">The type reference.</param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException">
+                This method can only fix a reference to a patching type, or a reference to a
+                nested type in a patching type.
+            </exception>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.ManualImportMethod(Mono.Cecil.MethodReference)">
+            <summary>
+            This performs a more diligent Import-like operation. The standard Import method can sometimes fail unpredictably when generics are involved.
+            Note that it's possible yourMethodRef will be mutated, so don't use it.
+            </summary>
+            <param name="yourMethodRef">A reference to your method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.FixMethodReference(Mono.Cecil.MethodReference,System.Boolean)">
+            <summary>
+                Fixes the method reference.
+            </summary>
+            <param name="yourMethodRef">The method reference.</param>
+            <param name="isntFixTypeCall">This parameter is sort of a hack that lets FixType call FixMethod to fix MVars, without infinite recursion. If set to false, it avoids fixing some types.</param>
+            <returns></returns>
+            <exception cref="T:System.Exception">Method isn't part of a patching type in this assembly...</exception>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.CopyCustomAttributes(Mono.Cecil.ICustomAttributeProvider,Mono.Cecil.ICustomAttributeProvider,System.Func{Mono.Cecil.CustomAttribute,System.Boolean})">
+            <summary>
+            Copies the custom attributes, excluding any attributes from a patching assembly that haven't been declared
+            and Patchwork attributes. Note that this can only be used after all types and methods have been declared.
+            </summary>
+            <param name="targetMember">The target member.</param>
+            <param name="yourMember">Your member, the source of the attributes.</param>
+            <param name="filter"></param>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.TransferMethodBody(Mono.Cecil.MethodDefinition,Mono.Cecil.MethodDefinition)">
+            <summary>
+            Transfers the method body of yourMethod into the targetMethod, keeping everything neat and tidy, creating new copies of yourMethod's instructions.
+            </summary>
+            <param name="targetMethod">The target method.</param>
+            <param name="yourMethod">Your instructions.</param>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.#ctor(Mono.Cecil.AssemblyDefinition,Serilog.ILogger)">
+            <summary>
+                Initializes a new instance of the <see cref="T:Patchwork.Engine.AssemblyPatcher" /> class.
+            </summary>
+            <param name="targetAssembly">The target assembly being patched by this instance.</param>
+            <param name="log"></param>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.#ctor(System.String,Serilog.ILogger)">
+            <summary>
+            Constructs a new assembly patcher patching the assembly in the given path.
+            </summary>
+            <param name="targetAssemblyPath">The path to the given assembly.</param>
+            <param name="log">A log.</param>
+        </member>
+        <member name="P:Patchwork.Engine.AssemblyPatcher.EmbedHistory">
+            <summary>
+            Specifies whether to embed history, which includes special patching history attributes, as well as most patching attributes. If enabled, creates a dependency on Patchwork.Attributes.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.AssemblyPatcher.UseBackup">
+            <summary>
+            Whether or not to backup the TargetAssembly before applying a patch. Set to false for faster execution.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.AssemblyPatcher.TargetAssembly">
+            <summary>
+                Exposes the target assembly being patched by this instance.
+            </summary>
+            <value>
+                The target assembly.
+            </value>
+        </member>
+        <member name="P:Patchwork.Engine.AssemblyPatcher.Log">
+            <summary>
+                Gets the log.
+            </summary>
+            <value>
+                The log.
+            </value>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.PatchAssembly(System.String,Patchwork.Engine.IProgressMonitor,System.Boolean)">
+            <summary>
+            Patches the current assembly with the assembly in the specified path.
+            </summary>
+            <param name="path"></param>
+            <param name="o"></param>
+            <param name="readSymbols"></param>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.PatchManifest(Patchwork.Engine.PatchingManifest,Patchwork.Engine.IProgressMonitor)">
+            <summary>
+            Applies the patch described in the given PatchingManifest to the TargetAssembly.
+            </summary>
+            <param name="manifest">The PatchingManifest. Note that the instance will be populated with additional information (such as newly created types) during execution.</param>
+            <param name="o"></param>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.RunPeVerify(Patchwork.Engine.Utility.PEVerifyInput)">
+             <summary>
+             This method runs the PEVerify command-line tool on the patched assembly. It does this by first writing it to a temporary file.<br/>
+            PEVerify is a tool that verifies IL. It goes over it and looks for various issues.<br/>
+            Some of the errors it reports are relatively harmless but others mean the assembly cannot be loaded.<br/>
+            Ideally, it should report no errors.<br/>
+            This operation returns an extended and user-friendly form of the output, translating metadata tokens into user-readable names.
+             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.AssemblyPatcher.WriteTo(System.String)">
+            <summary>
+            Writes the patched result to file.
+            </summary>
+            <param name="path">The path into which the assembly will be written to.</param>
+        </member>
+        <member name="T:Patchwork.Engine.NamespaceDoc">
+            <summary>
+            Contains classes and other members that together make up the Patchwork patching engine.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.PatchInfoProxy.FromPatchAssembly(System.String,System.String,System.String)">
+            <summary>
+            Loads the PatchInfo type of the specified name from the specified assembly, but in a separate AppDomain to facilitate unloading. Returns a special proxy object.
+            </summary>
+            <param name="assemblyLocation">The full path to the assembly in question. Required for locating the assembly.</param>
+            <param name="assemblyName">The expected short name of the assembly. This parameter is mainly optional and is only used for diagonostics.</param>
+            <param name="fullTypeName">The full name of the type to be instantiated.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.PatchInfoProxy.SetInnerInfo(System.String,System.String)">
+            <summary>
+            This method contains code that is meant to execute in a separate AppDomain. Any assemblies and types loaded here are constrained to that domain.
+            </summary>
+            <param name="assemblyPath"></param>
+            <param name="fullTypeName"></param>
+            <exception cref="T:Patchwork.Engine.PatchDeclerationException">The PatchInfo class was not declared correctly.</exception>
+            <exception cref="T:Patchwork.Engine.PatchExecutionException">Code within the PatchInfo class threw an exception or otherwise failed to execute.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.PatchInfoProxy.Dispose">
+            <summary>
+            Unloads the AppDomain hosting the associated assembly.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.NamespaceDoc">
+            <summary>
+            Contains helper classes and other objects that may be used for working with the Patchwork engine, Cecil, or reflection. Not to be used outside of Patchwork engine or launcher code.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.AssemblyCache">
+            <summary>
+            An AssemblyDefinition loader that doesn't load an assembly if it's in the cache.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.Utility.AssemblyCache.Default">
+            <summary>
+            Gets the default AssemblyCache.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.AssemblyCache.ReadAssembly(System.String,System.Boolean)">
+            <summary>
+            Reads the assembly from the given path, or else loads it from cache.
+            </summary>
+            <param name="path">The patch to read the assembly from.</param>
+            <param name="readSymbols">Whether or not to read symbols.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.AssemblyCache.ClearCache">
+            <summary>
+            Clears the assembly cache.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.CecilLoader">
+            <summary>
+            Helper and extension methods for loading code elements from their Cecil metadata.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadType(Mono.Cecil.TypeDefinition)">
+            <summary>
+            Loads a type using its Cecil definition. Involves loading the assembly from disk.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <returns></returns>
+            <exception cref="T:System.TypeLoadException">Could not find the type from its Mono.Cecil identifiers, or could not load the
+            assembly.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadProperty(Mono.Cecil.PropertyDefinition)">
+            <summary>
+                Loads the property from its Cecil metadata. Involves loading the assembly from disk.
+            </summary>
+            <param name="propDef">The property definition.</param>
+            <returns></returns>
+            <exception cref="T:System.MissingMemberException">Could not find the property.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadMember(Mono.Cecil.IMemberDefinition)">
+            <summary>
+                Loads the member from its IMemberDefinition.
+            </summary>
+            <param name="memberDef">The member definition.</param>
+            <returns></returns>
+            <exception cref="T:System.NotSupportedException">Unknown IMemberDefinition type.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadLocalAssembly(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+                Tries to load the assembly from disk by using its Cecil identifiers. Can fail, so don't use it often.
+            </summary>
+            <param name="assemblyDef">The assembly definition.</param>
+            <returns></returns>
+            <exception cref="T:System.TypeLoadException">Could not load the assembly from its Mono.Cecil definition.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadMethod(Mono.Cecil.MethodDefinition)">
+            <summary>
+                Converts a Cecil.MethodDefinition to a MethodBase. Also converts constructors. Requires loading the type and/or
+                assembly.
+            </summary>
+            <param name="methodDef">The method definition.</param>
+            <returns></returns>
+            <exception cref="T:System.MissingMemberException">No member matched the search criteria.</exception>
+            <exception cref="T:System.TypeLoadException">Could not load the type or assembly.</exception>
+            <exception cref="T:System.Reflection.AmbiguousMatchException">More than one member matched the search criteria.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadField(Mono.Cecil.FieldDefinition)">
+            <summary>
+                Loads a Cecil.FieldDefinition as a System.FieldInfo. Requires loading the assembly.
+            </summary>
+            <param name="fieldDef">The field definition.</param>
+            <returns></returns>
+            <exception cref="T:System.MissingMemberException">Could not find the field.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilLoader.LoadIntoMemory(Mono.Cecil.AssemblyDefinition,System.Boolean)">
+            <summary>
+                Loads a copy of the assembly from memory.
+            </summary>
+            <param name="def">The definition.</param>
+            <param name="reflectionOnly"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.CustomAttributeHelper">
+            <summary>
+            Helper and extension methods for working with attributes, including instantiating attribute instances from their Cecil metadata.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.HasCustomAttribute``1(Mono.Cecil.ICustomAttributeProvider)">
+            <summary>
+                Determines whether the custom attribute provider has the right custom attribute.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="memberDef">The member definition.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.IsPatchingAssembly(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+                Determines whether this is a patching assembly. Normally, if it has PatchingAssemblyAttribute.
+            </summary>
+            <param name="assembly">The assembly.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.GetCustomAttributes``1(Mono.Cecil.ICustomAttributeProvider)">
+            <summary>
+                Gets the custom attributes. However, it can fail in some cases, so use it with care.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="provider">The provider.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.GetCustomAttribute``1(Mono.Cecil.ICustomAttributeProvider)">
+            <summary>
+                Gets the custom attribute.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="provider">The provider.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.AddCustomAttribute(Mono.Cecil.ICustomAttributeProvider,Mono.Cecil.ModuleDefinition,System.Type,System.Object[])">
+            <summary>
+            Adds a proper, loaded custom attribute to a Cecil custom attribute provider.
+            </summary>
+            <param name="provider">The Cecil custom attribute provider to which the attribute is to be attached.</param>
+            <param name="module">The module in the context of which types and constructors will be imported.</param>
+            <param name="attribType">The proper type of the attribute to add.</param>
+            <param name="constructorArgs">The arguments to the attribute constructor. These attributes will be used to resolve the constructor in question.</param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CustomAttributeHelper.TryConstructAttribute(Mono.Cecil.CustomAttribute)">
+            <summary>
+                Constructs an attribute instance from its metadata.
+                The method will fail if the attribute constructor has a System.Type parameter.
+            </summary>
+            <param name="customAttrData">The custom attribute data.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.DisplayNameHelper">
+            <summary>
+            Extension and helper methods for resolving user-friendly names of various code elements.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.DisplayNameHelper.CommonNameForMemberDef``1">
+            <summary>
+            Returns the common name used for the member definition of the specified type.
+            </summary>
+            <typeparam name="T">The type of the member definition, e.g. <see cref="T:Mono.Cecil.FieldDefinition"/>, <see cref="T:Mono.Cecil.MethodDefinition"/>, etc. </typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.DisplayNameHelper.UserFriendlyName(Mono.Cecil.MemberReference)">
+            <summary>
+                Returns a user-friendly name for the reference.
+                It's not as short as Name, but not as long as FullName.
+            </summary>
+            <param name="memberRef">The member reference.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.DisplayNameHelper.UserFriendlyName(Mono.Cecil.TypeReference,System.Boolean)">
+            <summary>
+                Returns a user-friendly name.
+            </summary>
+            <param name="typeRef">The type reference.</param>
+            <param name="longForm">If true, returns a longer form of the name.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.CecilOverloadResolver">
+            <summary>
+            Methods for resolving members within types and modules using their name and/or signature.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetField(Mono.Cecil.TypeDefinition,System.String)">
+            <summary>
+                Gets the field.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <param name="name">The name.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetEvent(Mono.Cecil.TypeDefinition,System.String)">
+            <summary>
+            Returns the event with the specified name, or null.
+            </summary>
+            <param name="typeDef"></param>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetProperties(Mono.Cecil.TypeDefinition,System.String,System.Collections.Generic.IEnumerable{Mono.Cecil.TypeReference})">
+            <summary>
+                Gets the property.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <param name="name">The name.</param>
+            <param name="signature"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetPropertyLike(Mono.Cecil.TypeDefinition,Mono.Cecil.PropertyDefinition,System.String)">
+            <summary>
+            Returns a property similar to another one.
+            </summary>
+            <param name="containingDef"></param>
+            <param name="likeWhat"></param>
+            <param name="altName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetProperty(Mono.Cecil.TypeDefinition,System.String,System.Collections.Generic.IEnumerable{Mono.Cecil.TypeReference})">
+            <summary>
+               Returns a property on the type with the given name and signature.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <param name="name">The name.</param>
+            <param name="signature">A sequence of type references taken to be the parameters of an indexer property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetMethodLike``1(Mono.Cecil.ModuleDefinition,System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            Imports the method referenced in an expression in the context of <paramref name="module"/>.
+            </summary>
+            <typeparam name="T">The return type of the method.</typeparam>
+            <param name="module">The module into which to import the method as a reference.</param>
+            <param name="expr">A method invocation expression meant to be supplied in lambda form, e.g. <c>() => 1.ToString()</c>. Otherwise, throws an exception.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetMethodLike(Mono.Cecil.ModuleDefinition,System.Linq.Expressions.Expression{System.Action})">
+            <summary>
+            Imports the method referenced in an expression in the context of <paramref name="module"/>.
+            </summary>
+            <param name="module">The module on which to find the method.</param>
+            <param name="expr">A method invocation expression meant to be supplied in lambda form. Otherwise, throws an exception.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetMethodLike(Mono.Cecil.TypeDefinition,Mono.Cecil.MethodReference,System.String)">
+            <summary>
+            Returns a method on the type similar to the specified method.
+            </summary>
+            <param name="containingType">The type on which to resolve the method.</param>
+            <param name="similarMethod">A reference to the similar method.</param>
+            <param name="altName">Optionally, find a method similar to <paramref name="similarMethod"/>, but with this name instead.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetMethods(Mono.Cecil.TypeDefinition,System.String,System.Collections.Generic.IEnumerable{Mono.Cecil.TypeReference},System.Int32,Mono.Cecil.TypeReference)">
+            <summary>
+            This method only considers the return type of the method if its name is op_Explicit or op_Implicit.
+            </summary>
+            <param name="type"></param>
+            <param name="methodName"></param>
+            <param name="parameters"></param>
+            <param name="genericArity"></param>
+            <param name="returnType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.IsOverloadMatch(Mono.Cecil.TypeReference,Mono.Cecil.TypeReference)">
+            <summary>
+                Determines if the types are equivalent for the purpose of choosing overloads.
+            </summary>
+            <param name="a">Type a.</param>
+            <param name="b">Type b.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.IsOfType(Mono.Cecil.TypeDefinition,System.String)">
+            <summary>
+            Returns true if the type definition has a parent type with the full name of <paramref name="parentType"/>.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <param name="parentType">The full name of the parent type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.GetNestedType(Mono.Cecil.TypeReference,System.String)">
+            <summary>
+                Finds a nested type with the specified local name in the given type. It only works for immediate descendants.
+            </summary>
+            <param name="typeDef">The type definition.</param>
+            <param name="name">The name.</param>
+            <returns></returns>
+            <exception cref="T:System.Reflection.AmbiguousMatchException">More than one nested type matched the search criteria.</exception>
+            <exception cref="T:System.MissingMemberException">Could not find a nested type with that name.</exception>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilOverloadResolver.IsVarOrMVar(Mono.Cecil.TypeReference)">
+            <summary>
+            Returns true if the type reference is a generic type parameter (either of a type or of a method)
+            </summary>
+            <param name="typeRef"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.Hacks">
+            <summary>
+            Contains extension methods that are regarded as hacks circumventing some of Cecil's limitations. Strong points of failure should the version change.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.Hacks.RegisterSpecialResolveFailureHandler(Mono.Cecil.BaseAssemblyResolver,Mono.Cecil.AssemblyResolveEventHandler)">
+            <summary>
+            Creates a system of multiple assembly resolvers. The latest resolver is fired first. The list can be cleared.
+            </summary>
+            <param name="resolver"></param>
+            <param name="handler"></param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.Hacks.LookupTokenExtended(Mono.Cecil.ModuleDefinition,Mono.Cecil.MetadataToken)">
+            <summary>
+            This method returns the member with the specified metadata token in the given module. It supports more TokenTypes than the standard Cecil method.
+            </summary>
+            <param name="module"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.PatchedMemberHelper.GetPatchedTypeFullName(Mono.Cecil.TypeReference)">
+            <summary>
+                If given a ref to a patching type, returns the type that it patches. Otherwise, returns null.
+            </summary>
+            <param name="typeRef">The type reference.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.PatchedMemberHelper.IsCompilerGenerated(Mono.Cecil.IMemberDefinition)">
+            <summary>
+                Determines whether the member was compiler generated.
+            </summary>
+            <param name="attrProvider">The attribute provider.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.SimpleTypeGroup`1">
+            <summary>
+            A group of objects having the same type.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeGroup`1.#ctor(System.Type,System.Collections.Generic.IList{`0})">
+            <summary>
+            Constructs a new instance of the <see cref="T:Patchwork.Engine.Utility.SimpleTypeGroup`1"/> containing a list of types.
+            </summary>
+            <param name="key">The type keying this group.</param>
+            <param name="values">A list of objects sharing that type.</param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeGroup`1.#ctor(System.Type)">
+            <summary>
+            Constructs a new instance of the <see cref="T:Patchwork.Engine.Utility.SimpleTypeGroup`1"/> with an empty list of types.
+            </summary>
+            <param name="key">The type keying this group.</param>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.SimpleTypeGroup`1.Values">
+            <summary>
+            Returns the list of types.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.SimpleTypeGroup`1.Key">
+            <summary>
+            Returns the type key.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeGroup`1.GetEnumerator">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.SimpleTypeLookup`1">
+            <summary>
+            A special lookup table that uses types as keys.
+            </summary>
+            <typeparam name="T">The type of object stored in the table (usually, a supertype)</typeparam>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.#ctor">
+            <summary>
+            Constructs an empty <see cref="T:Patchwork.Engine.Utility.SimpleTypeLookup`1"/>.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.GetGroupExplicitly(System.Type)">
+            <summary>
+            Returns the group keyed by the specified type.
+            </summary>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.SimpleTypeLookup`1.Item(System.Type[])">
+            <summary>
+            Returns all the elements that have at least one of the given types as a supertype.
+            </summary>
+            <param name="types">The supertypes.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.SimpleTypeLookup`1.Count">
+            <summary>
+            Returns the total number of values in the table.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.Add(System.Type,`0)">
+            <summary>
+            Adds a value with a type key.
+            </summary>
+            <param name="t">The type key.</param>
+            <param name="value">The value to add.</param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.Remove(`0)">
+            <summary>
+            Removes an object.
+            </summary>
+            <param name="what"></param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.AddRange(System.Collections.Generic.IEnumerable{System.Linq.IGrouping{System.Type,`0}})">
+            <summary>
+            Adds a sequence of values with a type key.
+            </summary>
+            <param name="groupings"></param>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.SimpleTypeLookup`1.GetEnumerator">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.Accessibility">
+            <summary>
+                A member's accessibility level, such as public, private, etc.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.CommonBindingFlags">
+            <summary>
+                Commonly used combinations of the BindingFlags enum.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.Utility.CommonBindingFlags.Everything">
+            <summary>
+                Instance, Static, Public, NonPublic
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.PathHelper">
+            <summary>
+            Utility methods for dealing with paths.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.PathHelper.GetRelativePath(System.String,System.String)">
+            http://stackoverflow.com/questions/275689/how-to-get-relative-path-from-absolute-path
+             <summary>
+             Creates a relative path from one file or folder to another.
+             </summary>
+             <param name="fromPath">Contains the directory that defines the start of the relative path.</param>
+             <param name="toPath">Contains the path that defines the endpoint of the relative path.</param>
+             <returns>The relative path from the start directory to the end path or <c>toPath</c> if the paths are not related.</returns>
+             <exception cref="T:System.ArgumentNullException"></exception>
+             <exception cref="T:System.UriFormatException"></exception>
+             <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.CecilHelper">
+            <summary>
+                Helper methods (mainly extension methods) for working with Cecil and .NET reflection classes. Some are publically visible.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.Clone(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+            Returns a reloaded clone of the assembly by serializing it and loading it from memory.
+            </summary>
+            <param name="definition">The assembly definition.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.SerializeAssembly(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+            Serializes the assembly by writing it into a memory stream.
+            </summary>
+            <param name="definition">The assembly definition.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.CloneReference(Mono.Cecil.MethodReference)">
+            <summary>
+                Creates another refernece to the same method.
+            </summary>
+            <param name="methodRef">The method reference.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.CloneReference(Mono.Cecil.FieldReference)">
+            <summary>
+                Returns another reference to the same field.
+            </summary>
+            <param name="methodDef">The field reference.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.GetAccessbility(Mono.Cecil.IMemberDefinition)">
+            <summary>
+                Gets the C#-like accessbility of this member.
+            </summary>
+            <param name="memberDef">The member definition.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.SetAccessibility(Mono.Cecil.IMemberDefinition,Patchwork.Engine.Utility.Accessibility)">
+            <summary>
+                Sets the accessibility attributes of this member to the desired C#-like accessibility.
+            </summary>
+            <param name="method">The method.</param>
+            <param name="newAccessibility">The new accessibility.</param>
+        </member>
+        <member name="F:Patchwork.Engine.Utility.CecilHelper.PatchworkMetadataString">
+            <summary>
+            Contains the metadata string of the executing Patchwork.Engine assembly, as determined by the <see cref="M:Patchwork.Engine.Utility.CecilHelper.GetAssemblyMetadataString(Mono.Cecil.AssemblyDefinition)"/> method.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.GetAssemblyMetadataString(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+            Returns a human-readable metadata string that describes the specified Cecil assembly definition.
+            </summary>
+            <param name="assembly">The assembly.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.GetAssemblyMetadataString(System.Reflection.Assembly)">
+            <summary>
+            Returns a human-readable metadata string that describes the specified proper, loaded assembly.
+            </summary>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.CecilHelper.GetAssemblyMetadataString(System.String,System.String)">
+            <summary>
+            Returns the metadata string that describes the assembly in the specified location, expected to have the specified full name.
+            </summary>
+            <param name="fullName">The full name of the assembly expected. Mainly used </param>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.PEVerifyInput">
+            <summary>
+            Represents a set of arguments with which PEVerify is invoked on an assembly.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.Utility.PEVerifyInput.DefaultPeVerifySwitches">
+            <summary>
+            The default switches with which PEVerify is called.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyInput.Switches">
+            <summary>
+            The switches with which PEVerify is called. Defaults to <see cref="F:Patchwork.Engine.Utility.PEVerifyInput.DefaultPeVerifySwitches"/>.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyInput.IgnoreErrors">
+            <summary>
+            Tells PEVerify to ignore errors with these numbers. Used when errors of a certain kind are expected.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyInput.AssemblyResolutionFolder">
+            <summary>
+            The base folder in which all requested assemblies are expected to be found. Defaults to <c>Environment.CurrentDirectory</c>
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyInput.ExpandMetadataTokens">
+            <summary>
+            If true, will attempt to resolve metadata tokens referenced in the output of PEVerify.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.PEVerifyOutput">
+            <summary>
+            Represents the output of PEVerify.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyOutput.Output">
+            <summary>
+            The textual output of the command, after anti post-processing phases such as metadata token expansion.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.Utility.PEVerifyOutput.ErrorCount">
+            <summary>
+            The number of errors encountered.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.PeVerifyRunner">
+            <summary>
+            A helper class used to execute and provide PEVerify-related services.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.PeVerifyRunner.RunPeVerify(Mono.Cecil.AssemblyDefinition,Patchwork.Engine.Utility.PEVerifyInput)">
+            <summary>
+            Executes the bundled PEVerify executable on the specified assembly by first serializing it to file. PEVerify is an unmanaged, Windows-only application.
+            </summary>
+            <param name="targetAssembly">The assembly on which to run PEVerify.</param>
+            <param name="input">The arguments with which to run PEVerify and process its output.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.Utility.ReflectHelper">
+            <summary>
+            A helper class that provides extension methods for working with objects from the System.Reflection namespace.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.ReflectHelper.GetCustomAttributes``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Returns a sequence of custom attributes with the specified type
+            </summary>
+            <typeparam name="T">The type of attributes to return.</typeparam>
+            <param name="provider">The attribute provider to inspect.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.ReflectHelper.GetCustomAttribute``1(System.Reflection.ICustomAttributeProvider)">
+            <summary>
+            Returns a single custom attribute of the specified type. Returns the first one.
+            </summary>
+            <typeparam name="T">The type of the attribute to return.</typeparam>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.ReflectHelper.GetConstructorEx(System.Type,System.Reflection.BindingFlags,System.Type[])">
+            <summary>
+            Returns the constructor for the type matching the specified signature, using the specified binding flags.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="flags">The binding flags.</param>
+            <param name="args">A set of Type objects treated as the signature of the constructor to find.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.Utility.ReflectHelper.GetEnumValueText``1(``0)">
+            <summary>
+            Returns the text title of an Enum value, which is actually the content of its <see cref="T:System.ComponentModel.DescriptionAttribute"/>, if any.
+            </summary>
+            <typeparam name="T">the type of the enum.</typeparam>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Patchwork.Engine.ImplicitImportSetting">
+            <summary>
+                Changes how members without explicit patch attributes are treated.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.ImplicitImportSetting.NoImplicit">
+            <summary>
+                All new elements must be explicitly declared or an error is thrown.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.ImplicitImportSetting.OnlyCompilerGenerated">
+            <summary>
+                Only compiler-generated elements will be implicitly imported/created.
+            </summary>
+        </member>
+        <member name="F:Patchwork.Engine.ImplicitImportSetting.ImplicitByDefault">
+            <summary>
+                (Not recommended) All elements that don't have a Patchwork ActionAttributes will be imported by default.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.ManifestCreator">
+            <summary>
+            An object that can scan a patch assembly and constructs patching manifests, which are collections of patching instructions 
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.ManifestCreator.#ctor(Serilog.ILogger,Patchwork.Engine.ImplicitImportSetting)">
+            <summary>
+            Constructs a new manifest creator with the given settings.
+            </summary>
+            <param name="log">A log.</param>
+            <param name="implicitImports">How to treat code elements that exist in a patch assembly but aren't decorated with a patching attribute.</param>
+        </member>
+        <member name="P:Patchwork.Engine.ManifestCreator.Log">
+            <summary>
+            The log used by this manifest creator.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.ManifestCreator.CreateManifest(System.String)">
+            <summary>
+            Reads the specified assembly definition and creates a manifest.
+            </summary>
+            <param name="patchAssemblyLocation">The location of the patch assembly to read.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Patchwork.Engine.ManifestCreator.CreateManifest(Mono.Cecil.AssemblyDefinition)">
+            <summary>
+            Reads the specified assembly definition and creates a manifest.
+            </summary>
+            <param name="yourAssembly">The patch assembly to read.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Patchwork.Engine.ManifestCreator.ImplicitImports">
+            <summary>
+                Gets or sets the implicit imports setting. This influences how members that don't have any Patch attributes are
+                treated.
+            </summary>
+            <value>
+                The implicit import setting.
+            </value>
+        </member>
+        <member name="P:Patchwork.Engine.ManifestCreator.Filter">
+            <summary>
+                If set (default null), a filter that says which types to include. This is a debug option.
+            </summary>
+            <value>
+                The filter.
+            </value>
+        </member>
+        <member name="T:Patchwork.Engine.MemberAction`1">
+            <summary>
+            An action to perform on a member.
+            </summary>
+            <typeparam name="T">The type of member definition on which to perform the action.</typeparam>
+        </member>
+        <member name="P:Patchwork.Engine.MemberAction`1.TypeAction">
+            <summary>
+            The type action in the context of which this member action is being performed.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.MemberAction`1.YourMember">
+            <summary>
+            The member definition in the patching assembly on behalf of which patching is being performed.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.MemberAction`1.TargetMember">
+            <summary>
+            The member definition in the target assembly which is to be patched, if any.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.MemberAction`1.ActionAttribute">
+            <summary>
+            The member action that is to be performed.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.TypeAction">
+            <summary>
+            Specifies an action to be taken on a type.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.TypeAction.YourType">
+            <summary>
+            The type in the patching assembly on behalf of which patching is performed.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.TypeAction.ActionAttribute">
+            <summary>
+            The type action attribute that specifies the operation.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.TypeAction.TargetType">
+            <summary>
+            The type in the target assembly on which to perform the operation, if any.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.PatchDeclerationException">
+            <summary>
+            One of the declerations in the patching assembly is invalid in the context of the target assembly.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.PatchExecutionException">
+            <summary>
+            Executing code contained within a patch (such as the <see cref="T:Patchwork.AutoPatching.IPatchInfo"/> class) threw an exception or otherwise failed.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.PatchException">
+            <summary>
+            Base class for all Patchwork-specific exceptions the library throws.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.PatchImportException">
+            <summary>
+            A reference to a member or other element could not be imported (corrected and injected into the target assembly).
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.PatchingManifest">
+            <summary>
+            A patching manifest, which is a collection of patching instructions detected in a patch assembly, organized by kind.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.PatchAssembly">
+            <summary>
+            The patch assembly this manifest was generated from.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.PatchInfo">
+            <summary>
+            The <see cref="T:Patchwork.AutoPatching.IPatchInfo"/> object for the patch assembly.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.TypeActions">
+            <summary>
+            A collection of actions to be performed on types, organized based on attribute type in a special lookup table.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.FieldActions">
+            <summary>
+            A collection of actions to be performed on fields, organized based on attribute type in a special lookup table.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.MethodActions">
+            <summary>
+            A collection of actions to be performed on methods, organized based on attribute type in a special lookup table.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.PropertyActions">
+            <summary>
+            A collection of actions to be performed on properties, organized based on attribute type in a special lookup table.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.PatchingManifest.EventActions">
+            <summary>
+            A collection of actions to be performed on events, organized based on attribute type in a special lookup table.
+            </summary>
+        </member>
+        <member name="M:Patchwork.Engine.PatchingManifest.Dispose">
+            <summary>
+            Disposes of the AppDomain hosting the PatchInfo instance. This needs to be called so the AppDomain can be unloaded.
+            </summary>
+        </member>
+        <member name="T:Patchwork.Engine.IProgressMonitor">
+            <summary>
+            Used to monitor the progress of the patching engine.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.IProgressMonitor.TaskTitle">
+            <summary>
+            The name of the current task executing.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.IProgressMonitor.TaskText">
+            <summary>
+            The name of the current subtask being performed.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.IProgressMonitor.Current">
+            <summary>
+            The progress in the current task.
+            </summary>
+        </member>
+        <member name="P:Patchwork.Engine.IProgressMonitor.Total">
+            <summary>
+            The number of progress to be done.
+            </summary>
+        </member>
+    </members>
+</doc>
