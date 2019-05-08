@@ -1,4 +1,5 @@
 ﻿using Game;
+using Game.GameData;
 using Game.UI;
 using Patchwork;
 
@@ -26,7 +27,11 @@ namespace PoE2Mods.PartySizeMod
                     ActivateClone<UIPartyManagementIcon>().SetPartyMember(partyMemberData);
                 }
             }
-            PartyCount.text = IntUtils.ToStringLocal(base.ActiveChildCount) + "/6";
-        }
+
+			if (GodChallengeGameData.AnyEnabledChallenge(GodChallengeGameData.ProhibitPartyMembersPredicate))
+				PartyCount.text = IntUtils.ToStringLocal(base.ActiveChildCount) + "/1";
+			else
+				PartyCount.text = IntUtils.ToStringLocal(base.ActiveChildCount) + "/6";
+		}
     }
 }

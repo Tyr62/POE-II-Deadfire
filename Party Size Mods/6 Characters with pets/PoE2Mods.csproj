@@ -32,15 +32,15 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceFiles\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\ReferenceFiles\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="OEICommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceFiles\OEICommon.dll</HintPath>
+      <HintPath>..\..\ReferenceFiles\OEICommon.dll</HintPath>
     </Reference>
     <Reference Include="OEIFormats, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceFiles\OEIFormats.dll</HintPath>
+      <HintPath>..\..\ReferenceFiles\OEIFormats.dll</HintPath>
     </Reference>
     <Reference Include="Patchwork.Attributes, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -60,11 +60,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceFiles\UnityEngine.dll</HintPath>
+      <HintPath>..\..\ReferenceFiles\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceFiles\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\ReferenceFiles\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

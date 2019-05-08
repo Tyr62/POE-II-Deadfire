@@ -17,6 +17,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoE2Mods", "Party Size Mods
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PoE2Mods", "Party Size Mods\8 Characters\PoE2Mods.csproj", "{163592BD-6599-4136-8742-2FE291078346}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferenceFiles", "ReferenceFiles", "{36C3E744-7748-4B77-A53C-DECD4337D933}"
+	ProjectSection(SolutionItems) = preProject
+		ReferenceFiles\Assembly-CSharp.dll = ReferenceFiles\Assembly-CSharp.dll
+		ReferenceFiles\OEICommon.dll = ReferenceFiles\OEICommon.dll
+		ReferenceFiles\OEIFormats.dll = ReferenceFiles\OEIFormats.dll
+		ReferenceFiles\UnityEngine.dll = ReferenceFiles\UnityEngine.dll
+		ReferenceFiles\UnityEngine.UI.dll = ReferenceFiles\UnityEngine.UI.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

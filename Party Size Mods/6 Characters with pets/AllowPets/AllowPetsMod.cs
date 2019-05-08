@@ -21,5 +21,5 @@ namespace PoE2Mods.AllowPets
                     return true;
             }
         }
-    }
+	}
 }
