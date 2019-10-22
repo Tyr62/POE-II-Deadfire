@@ -56,7 +56,8 @@ namespace PoE2Mods.PartySizeMod
                             cutsceneWaypoint.TeleportVFX = null;
                             cutsceneWaypoint.Location = ActiveShot.PartyStartLocation.Waypoints[absoluteFormationIndex].transform;
 
-                            SpawnWaypointList.Add(cutsceneWaypoint);
+							Debug.Log($"AddPartyToActorList Cutscene Teleport: {activePartyMember.name} {absoluteFormationIndex} {cutsceneWaypoint.Location.position}");
+							SpawnWaypointList.Add(cutsceneWaypoint);
                         }
 
                         if (ActiveShot.UsePartyMoveLocation && ActiveShot.PartyMoveLocation != null)
@@ -76,12 +77,12 @@ namespace PoE2Mods.PartySizeMod
 
                             var cutsceneWaypoint = new CutsceneWaypoint();
                             cutsceneWaypoint.owner = gameObject;
-                            cutsceneWaypoint.MoveType = MovementType.Teleport;
-                            cutsceneWaypoint.TeleportVFX = null;
+                            cutsceneWaypoint.MoveType = ActiveShot.PartyMoveType;
+							cutsceneWaypoint.TeleportVFX = null;
                             cutsceneWaypoint.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
+							cutsceneWaypoint.SetFacingOnArrival = ActiveShot.PartyFaceOnArrival;
 
-                            SpawnWaypointList.Add(cutsceneWaypoint);
-                            
+							MoveWaypointList.Add(cutsceneWaypoint);                           
                         }
 
                         if (!ActorList.Contains(gameObject))

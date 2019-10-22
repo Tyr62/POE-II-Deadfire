@@ -1,20 +1,4 @@
-﻿2019-02-24 19:53:29.979 +01:00 [Error] The patch located in Mods\PoE2Mods.HelmetForGodlike.pw.dll could not be loaded.
-System.IO.FileNotFoundException: Le fichier 'Z:\Development\Pillars of Eternity 2\Patchwork Launcher\Mods\PoE2Mods.HelmetForGodlike.pw.dll' est introuvable.
-Nom de fichier : 'Z:\Development\Pillars of Eternity 2\Patchwork Launcher\Mods\PoE2Mods.HelmetForGodlike.pw.dll'
-   à System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
-   à System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
-   à System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share)
-   à Mono.Cecil.ModuleDefinition.GetFileStream(String fileName, FileMode mode, FileAccess access, FileShare share)
-   à Mono.Cecil.ModuleDefinition.ReadModule(String fileName, ReaderParameters parameters)
-   à Mono.Cecil.AssemblyDefinition.ReadAssembly(String fileName, ReaderParameters parameters)
-   à Patchwork.Engine.Utility.AssemblyCache.ReadAssembly(String path, Boolean readSymbols)
-   à Patchwork.Engine.ManifestCreator.CreateManifest(String patchAssemblyLocation)
-   à PatchworkLauncher.LaunchManager.Command_Direct_AddPatch(String path, Boolean isEnabled)
-2019-02-24 19:53:29.998 +01:00 [Error] An error has occurred,
-While trying to: Load patches on startup.
-Object(s) that failed: Mods\PoE2Mods.HelmetForGodlike.pw.dll
-
-2019-02-24 19:53:34.713 +01:00 [Information] Created patcher for assembly: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-2019-02-24 19:53:34.774 +01:00 [Information] =====Creating new fields=====
-2019-02-24 19:53:34.930 +01:00 [Information] Writing assembly Assembly-CSharp [X:SteamLibrary\...\Managed\Assembly-CSharp.dll] to location X:SteamLibrary\...\Managed\Assembly-CSharp.dll.pw.modified
-2019-02-24 19:53:36.267 +01:00 [Information] Write completed successfuly.
+﻿2019-10-22 20:47:12.340 +02:00 [Information] Created patcher for assembly: Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+2019-10-22 20:47:12.407 +02:00 [Information] =====Creating new fields=====
+2019-10-22 20:47:12.561 +02:00 [Information] Writing assembly Assembly-CSharp [X:SteamLibrary\...\Managed\Assembly-CSharp.dll] to location X:SteamLibrary\...\Managed\Assembly-CSharp.dll.pw.modified
+2019-10-22 20:47:13.856 +02:00 [Information] Write completed successfuly.

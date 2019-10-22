@@ -74,15 +74,16 @@ namespace PoE2Mods.PartySizeMod
                                 ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform.SetPositionAndRotation(position, rotation);
                             }
 
-                            var cutsceneWaypoint = new CutsceneWaypoint();
-                            cutsceneWaypoint.owner = gameObject;
-                            cutsceneWaypoint.MoveType = MovementType.Teleport;
-                            cutsceneWaypoint.TeleportVFX = null;
-                            cutsceneWaypoint.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
+							var cutsceneWaypoint = new CutsceneWaypoint();
+							cutsceneWaypoint.owner = gameObject;
+							cutsceneWaypoint.MoveType = ActiveShot.PartyMoveType;
+							cutsceneWaypoint.TeleportVFX = null;
+							cutsceneWaypoint.Location = ActiveShot.PartyMoveLocation.Waypoints[absoluteFormationIndex].transform;
+							cutsceneWaypoint.SetFacingOnArrival = ActiveShot.PartyFaceOnArrival;
 
-                            SpawnWaypointList.Add(cutsceneWaypoint);
-                            
-                        }
+							MoveWaypointList.Add(cutsceneWaypoint);
+
+						}
 
                         if (!ActorList.Contains(gameObject))
                         {
